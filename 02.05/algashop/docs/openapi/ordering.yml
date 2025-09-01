@@ -1,0 +1,56 @@
+openapi: 3.0.4
+
+info: 
+  title: AlgaShop - Ordering
+  version: "1.0"
+
+servers:
+  - description: Development
+    url: "http://localhost:8080"
+  - description: Production
+    url: "https://api.algashop.com"
+
+paths:
+  /api/v1/customers:
+    post:
+      description: Register new customer
+      tags: 
+        - Customers
+    get: 
+      description: List customers
+      tags:
+        - Customers
+  /api/v1/customers/{customerId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Get one customer by id
+      tags:
+        - Customers
+    put: 
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Edit customer
+      tags:
+        - Customers
+    delete: 
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Delete customer
+      tags:
+        - Customers

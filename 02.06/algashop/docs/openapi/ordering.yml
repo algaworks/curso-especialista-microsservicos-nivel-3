@@ -1,0 +1,171 @@
+openapi: 3.0.4
+
+info: 
+  title: AlgaShop - Ordering
+  version: "1.0"
+
+servers:
+  - description: Development
+    url: "http://localhost:8080"
+  - description: Production
+    url: "https://api.algashop.com"
+
+paths:
+  /api/v1/customers:
+    post:
+      description: Register new customer
+      tags: 
+        - Customers
+    get: 
+      description: List customers
+      tags:
+        - Customers
+  /api/v1/customers/{customerId}:
+    get:
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Get one customer by id
+      tags:
+        - Customers
+    put: 
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Edit customer
+      tags:
+        - Customers
+    delete: 
+      parameters:
+        - schema:
+            type: string
+          name: customerId
+          in: path
+          required: true
+          example: '6e148bd5-47f6-4022-b9da-07cfaa294f7a'
+      description: Delete customer
+      tags:
+        - Customers
+
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        id: 
+          type: string
+          example: "380d7e70-7942-4b8d-a0e9-b93d79aa6745"
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          example: "johndoe@email.com"
+        document:
+          type: string
+          example: "12345"
+        phone:
+          type: string
+          example: "1191234564"
+        birthDate:
+          type: string
+          format: date
+          example: "1991-07-05"
+        loyaltyPoints:
+          type: number
+          example: 10
+        registeredAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        archivedAt:
+          type: string
+          format: date-time
+          example: "2024-04-04T00:12:45Z"
+        promotionNotificationsAllowed:
+          type: boolean
+          example: false
+        archived:
+          type: boolean
+          example: false
+        address:
+          $ref: "#/components/schemas/Address"
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: "Bourbon Street"
+        number:
+          type: string
+          example: "2000"
+        complement:
+          type: string
+          example: "apt 122"
+        neighborhood:
+          type: string
+          example: "North Ville"
+        city:
+          type: string
+          example: "Yostfort"
+        state:
+          type: string
+          example: "South Carolina"
+        zipCode:
+          type: string
+          example: "12321"
+    CustomerInput:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          example: "johndoe@email.com"
+        document:
+          type: string
+          example: "12345"
+        phone:
+          type: string
+          example: "1191234564"
+        birthDate:
+          type: string
+          format: date
+          example: "1991-07-05"
+        promotionNotificationsAllowed:
+          type: boolean
+          example: false
+        address:
+          $ref: "#/components/schemas/Address"
+    CustomerUpdateInput:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        phone:
+          type: string
+          example: "1191234564"
+        promotionNotificationsAllowed:
+          type: boolean
+          example: false
+        address:
+          $ref: "#/components/schemas/Address"

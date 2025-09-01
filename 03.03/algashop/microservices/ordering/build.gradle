@@ -1,0 +1,81 @@
+plugins {
+	id 'idea'
+	id 'java'
+	id 'org.springframework.boot' version '3.5.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.algaworks.algashop'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+	mockitoAgent
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'commons-validator:commons-validator:1.9.0'
+	implementation 'com.fasterxml.uuid:java-uuid-generator:5.1.0'
+	implementation 'io.hypersistence:hypersistence-tsid:2.1.4'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.modelmapper:modelmapper:3.2.4'
+	runtimeOnly 'com.h2database:h2'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'io.rest-assured:rest-assured'
+	testImplementation 'io.rest-assured:spring-mock-mvc'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.assertj:assertj-core:3.27.3'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	mockitoAgent('org.mockito:mockito-core:5.14.2') {transitive = false}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+test {
+	filter {
+		excludeTestsMatching("*IT")
+	}
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+}
+
+tasks.named('check') {
+	dependsOn(test, integrationTest)
+}
+
+tasks.register('integrationTest', Test) {
+	description = 'Run integration tests.'
+	group = 'verification'
+	jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+
+	testClassesDirs = sourceSets.test.output.classesDirs
+	classpath = sourceSets.test.runtimeClasspath
+
+	shouldRunAfter test
+
+	useJUnitPlatform()
+
+	testLogging {
+		events "passed"
+	}
+
+	filter {
+		includeTestsMatching "*IT"
+		excludeTestsMatching "*Test"
+	}
+}

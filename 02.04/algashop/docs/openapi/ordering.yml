@@ -1,0 +1,11 @@
+openapi: 3.0.4
+
+info: 
+  title: AlgaShop - Ordering
+  version: "1.0"
+
+servers:
+  - description: Development
+    url: "http://localhost:8080"
+  - description: Production
+    url: "https://api.algashop.com"
