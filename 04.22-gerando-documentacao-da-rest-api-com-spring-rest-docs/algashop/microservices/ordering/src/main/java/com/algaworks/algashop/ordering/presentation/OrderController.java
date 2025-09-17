@@ -10,6 +10,7 @@ import com.algaworks.algashop.ordering.application.order.query.OrderQueryService
 import com.algaworks.algashop.ordering.application.order.query.OrderSummaryOutput;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,14 @@ public class OrderController {
     }
 
     @PostMapping(consumes = "application/vnd.order-with-product.v1+json")
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderDetailOutput createWithProduct(@Valid @RequestBody BuyNowInput input) {
         String orderId = buyNowApplicationService.buyNow(input);
         return orderQueryService.findById(orderId);
     }
 
     @PostMapping(consumes = "application/vnd.order-with-shopping-cart.v1+json")
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderDetailOutput createWithShoppingCart(@Valid @RequestBody CheckoutInput input) {
         String orderId = checkoutApplicationService.checkout(input);
         return orderQueryService.findById(orderId);
