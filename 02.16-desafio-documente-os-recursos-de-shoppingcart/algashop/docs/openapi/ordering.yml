@@ -273,7 +273,149 @@ paths:
           404:
             $ref: "#/components/responses/NotFound"
 
-
+  /api/v1/shopping-carts:
+    post:
+      tags:
+        - Shopping Cart
+      description: Create shopping cart
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/ShoppingCartInput"
+      responses: 
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShoppingCart"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        500:
+          $ref: "#/components/responses/InternalError"
+  /api/v1/shopping-carts/{shoppingCartId}:
+    get: 
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      tags:
+        - Shopping Cart
+      description: Find shopping cart
+      responses: 
+        200: 
+          description: OK
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ShoppingCart"
+        404:
+          $ref: "#/components/responses/NotFound"
+    delete:
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      tags:
+        - Shopping Cart
+      description: Delete shopping cart
+      responses: 
+        204: 
+          description: OK
+        404:
+          $ref: "#/components/responses/NotFound"
+  /api/v1/shopping-carts/{shoppingCartId}/items:
+    post:
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      tags:
+        - Shopping Cart
+      description: Add or update cart item
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/ShoppingCartItemInput"
+      responses: 
+        204: 
+          description: OK
+        404:
+          $ref: "#/components/responses/NotFound"
+        400:
+          $ref: "#/components/responses/BadRequest"
+        500:
+          $ref: "#/components/responses/InternalError"
+    get: 
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      tags:
+        - Shopping Cart
+      description: List shopping cart items
+      responses:
+        200:
+          description: OK
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/ShoppingCartItemList"
+        404:
+          $ref: "#/components/responses/NotFound"
+    delete:
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      tags:
+        - Shopping Cart
+      description: Empty shopping cart
+      responses: 
+        204: 
+          description: OK
+        404:
+          $ref: "#/components/responses/NotFound"
+  /api/v1/shopping-carts/{shoppingCartId}/items/{itemId}:
+    delete:
+      tags:
+        - Shopping Cart
+      description: Remove cart item
+      parameters: 
+      - schema:
+          type: string
+        name: shoppingCartId
+        in: path
+        required: true
+        example: "277297bf-e586-4389-9f21-b3ce0c3f6580"
+      - schema:
+          type: string
+        name: itemId
+        in: path
+        required: true
+        example: "28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff"
+      responses: 
+        204: 
+          description: OK
 
 components:
   parameters:
@@ -899,3 +1041,85 @@ components:
           $ref: "#/components/schemas/OrderStatus"
         paymentMethod:
           $ref: "#/components/schemas/PaymentMethod"
+    ShoppingCart:
+      required:
+        - id
+        - totalAmount
+        - totalItems
+        - customerId
+        - items
+      properties:
+        id:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        totalAmount:
+          type: number
+          example: 41.98
+        totalItems:
+          type: integer
+          example: 1
+        customerId:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShoppingCartItem"
+    ShoppingCartItem:
+      required:
+        - id
+        - productId
+        - name
+        - price
+        - available
+        - quantity
+        - totalAmount
+      properties:
+        id:
+          type: string
+          example: '177297bf-e586-4389-9f21-a3ce0c3f6580'
+        productId:
+          type: string
+          example: '277297bf-e586-4389-9f21-b3ce0c3f6580'
+        name:
+          type: string
+          example: 'Desktop Gamer Dive'
+        price:
+          type: number
+          example: 100.00
+        available:
+          type: boolean
+          example: false
+        quantity:
+          type: integer
+          example: 2
+        totalAmount:
+          type: number
+          example: 140
+    ShoppingCartItemList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShoppingCartItem"
+    ShoppingCartItemInput:
+      required:
+        - quantity
+        - productId
+      properties:
+        quantity:
+          type: integer
+          example: 2
+        productId:
+          type: string
+          example: '6a6ca34c-e65c-496e-adaf-f872e1784003'
+    ShoppingCartInput:
+      required:
+        - customerId
+      properties:
+        customerId:
+          type: string
+          example: '6a6ca34c-e65c-496e-adaf-f872e1784003'
