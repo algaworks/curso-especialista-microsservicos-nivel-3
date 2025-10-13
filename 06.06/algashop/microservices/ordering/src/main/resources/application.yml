@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: ordering
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/ordering'
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: 'true'
+  flyway:
+    enabled: false
+
+algashop:
+  integrations:
+    shipping.provider: "RAPIDEX"
+    rapidex.url: "http://localhost:8780"
+    product-catalog.url: "http://localhost:8780"
