@@ -66,7 +66,7 @@ create table public.invoice_line_item (
     items_amount numeric(38,2),
     items_name varchar(255),
     items_number integer,
-    primary key (invoice_id, items_name)
+    primary key (invoice_id, items_number)
 );
 
 create index idx_invoice_line_item_invoice_id on public.invoice_line_item (invoice_id);
