@@ -1,5 +1,9 @@
+TRUNCATE TABLE credit_card CASCADE;
 TRUNCATE TABLE payment_settings CASCADE;
 TRUNCATE TABLE invoice CASCADE;
+
+INSERT INTO credit_card (id, brand, created_at, customer_id, exp_month, exp_year, gateway_code, last_numbers) VALUES('0199deda-9486-7d27-b40c-761f561a24d8', 'Visa', '2025-10-13 15:34:50.886', '28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff', 12, 2038, 'cc_gwjiqr7ct9rpuzmpzxld0pltmxt66mj0', '1022');
+INSERT INTO credit_card (id, brand, created_at, customer_id, exp_month, exp_year, gateway_code, last_numbers) VALUES('0199e2dd-9434-7a09-9241-f23536267484', 'Master', '2025-10-14 10:16:36.277', '28fcd9fb-4ce7-44d6-9583-14d8b3dc5aff', 12, 2038, 'cc_qdaz5kadzm8zgccwu0mpghxwngkbtnpu', '4545');
 
 INSERT INTO payment_settings (id, credit_card_id, gateway_code, "method") VALUES ('019a1134-75ed-74e7-a1c2-8377934e2e02'::uuid, NULL, 'pay_ab1c2d3e4f5g6h7i8j9k0l1m2n3o4p5q', 'GATEWAY_BALANCE');
 INSERT INTO payment_settings (id, credit_card_id, gateway_code, "method") VALUES ('019a1134-75ed-7c8f-bd62-b87e0e672a5b'::uuid, '0199deda-9486-7d27-b40c-761f561a24d8'::uuid, 'pay_bc2d3e4f5g6h7i8j9k0l1m2n3o4p5q6r', 'CREDIT_CARD');
