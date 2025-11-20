@@ -1,13 +1,13 @@
 package com.algaworks.algashop.ordering.infrastructure.adapters.in.listener.customer;
 
 import com.algaworks.algashop.ordering.core.application.AbstractApplicationIT;
-import com.algaworks.algashop.ordering.core.application.customer.CustomerLoyaltyPointsApplicationService;
 import com.algaworks.algashop.ordering.core.domain.model.commons.Email;
 import com.algaworks.algashop.ordering.core.domain.model.commons.FullName;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerRegisteredEvent;
 import com.algaworks.algashop.ordering.core.domain.model.customer.CustomerTestDataBuilder;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderId;
 import com.algaworks.algashop.ordering.core.domain.model.order.OrderReadyEvent;
+import com.algaworks.algashop.ordering.core.ports.in.customer.ForAddingLoyaltyPoints;
 import com.algaworks.algashop.ordering.core.ports.out.customer.ForNotifyingCustomers;
 import com.algaworks.algashop.ordering.core.ports.out.customer.ForNotifyingCustomers.NotifyNewRegistrationInput;
 import org.junit.jupiter.api.Test;
@@ -31,10 +31,10 @@ class CustomerEventListenerIT extends AbstractApplicationIT {
     private CustomerEventListener customerEventListener;
 
     @MockitoBean
-    private CustomerLoyaltyPointsApplicationService loyaltyPointsApplicationService;
+    private ForAddingLoyaltyPoints forAddingLoyaltyPoints;
 
-    @MockitoSpyBean
-    private ForNotifyingCustomers notificationApplicationService;
+    @MockitoBean
+    private ForNotifyingCustomers forNotifyingCustomers;
 
     @Test
     public void shouldListenOrderReadyEvent() {
@@ -48,7 +48,7 @@ class CustomerEventListenerIT extends AbstractApplicationIT {
 
         Mockito.verify(customerEventListener).listen(Mockito.any(OrderReadyEvent.class));
 
-        Mockito.verify(loyaltyPointsApplicationService).addLoyaltyPoints(
+        Mockito.verify(forAddingLoyaltyPoints).addLoyaltyPoints(
                 Mockito.any(UUID.class),
                 Mockito.any(String.class)
         );
@@ -65,9 +65,10 @@ class CustomerEventListenerIT extends AbstractApplicationIT {
                 )
         );
 
-        Mockito.verify(customerEventListener).listen(Mockito.any(CustomerRegisteredEvent.class));
+        Mockito.verify(customerEventListener)
+                .listen(Mockito.any(CustomerRegisteredEvent.class));
 
-        Mockito.verify(notificationApplicationService)
+        Mockito.verify(forNotifyingCustomers)
                 .notifyNewRegistration(Mockito.any(NotifyNewRegistrationInput.class));
     }
 
