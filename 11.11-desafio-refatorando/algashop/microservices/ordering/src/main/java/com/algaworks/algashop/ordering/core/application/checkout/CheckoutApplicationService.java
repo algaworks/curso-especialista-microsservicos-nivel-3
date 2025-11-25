@@ -20,7 +20,7 @@ import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCa
 import com.algaworks.algashop.ordering.core.domain.model.shoppingcart.ShoppingCarts;
 import com.algaworks.algashop.ordering.core.ports.in.checkout.CheckoutInput;
 import com.algaworks.algashop.ordering.core.ports.in.checkout.ForBuyingWithShoppingCart;
-import com.algaworks.algashop.ordering.core.ports.in.order.ShippingInput;
+import com.algaworks.algashop.ordering.core.ports.in.checkout.ShippingInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
