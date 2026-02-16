@@ -77,7 +77,7 @@ paths:
                   content:
                     type: array
                     items:
-                      $ref: "#/components/schemas/OrderSummary"
+                      $ref: "#/components/schemas/CustomerSummary"
   /api/v1/customers/{customerId}:
     get:
       parameters:
@@ -250,7 +250,7 @@ paths:
                   content:
                     type: array
                     items:
-                      $ref: "#/components/schemas/CustomerSummary"
+                      $ref: "#/components/schemas/OrderSummary"
   /api/v1/orders/{orderId}: 
       get:
         tags:

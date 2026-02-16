@@ -77,7 +77,7 @@ paths:
                   content:
                     type: array
                     items:
-                      $ref: "#/components/schemas/OrderSummary"
+                      $ref: "#/components/schemas/CustomerSummary"
   /api/v1/customers/{customerId}:
     get:
       parameters:
